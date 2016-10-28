@@ -1,6 +1,8 @@
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.execution.columnar.LONG;
+import org.apache.spark.sql.types.DataTypes;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
@@ -32,11 +34,21 @@ public class ReadJson {
 
         Dataset<Row> df = spark.read().json(dataset);
 
+        df.withColumn("ageDifference", df.col("ageDifference").cast(DataTypes.IntegerType))
+                .withColumn("mutualFriend", df.col("mutualFriend").cast(DataTypes.IntegerType))
+                .withColumn("score", df.col("score").cast(DataTypes.DoubleType))
+                .withColumn("userActivity", df.col("userActivity").cast(DataTypes.IntegerType))
+                .withColumn("friendActivity", df.col("friendActivity").cast(DataTypes.IntegerType))
+                .withColumn("userFriendCount", df.col("userFriendCount").cast(DataTypes.IntegerType))
+                .withColumn("friendFriendCount", df.col("friendFriendCount").cast(DataTypes.IntegerType));
+
         // Displays the content of the DataFrame to stdout
         df.printSchema();
 
         df.createOrReplaceTempView("people");
         Dataset<Row> sqlDF = spark.sql("SELECT COUNT(*) FROM people");
         sqlDF.show();
+        Dataset<Row> lineDF = spark.sql("SELECT * FROM people LIMIT 100");
+        lineDF.show();
     }
 }
