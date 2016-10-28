@@ -1,5 +1,5 @@
 /**
- * Created by sdjksdafji on 10/27/16.
+ * Created by Shuyi Wang on 10/27/16.
  */
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaSparkContext;
