@@ -12,7 +12,7 @@ public class ReadJson {
                 .appName("Read Json from Google Cloud Storage")
                 .getOrCreate();
 
-        Dataset<Row> df = spark.read().json("examples/src/main/resources/people.json");
+        Dataset<Row> df = spark.read().json("gs://friend_recommendation/06172016/friend_seen_training_filtering/part*");
 
         // Displays the content of the DataFrame to stdout
         df.printSchema();
