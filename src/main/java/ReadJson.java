@@ -34,13 +34,13 @@ public class ReadJson {
 
         Dataset<Row> df = spark.read().json(dataset);
 
-        df.withColumn("ageDifference", df.col("ageDifference").cast(DataTypes.IntegerType))
-                .withColumn("mutualFriend", df.col("mutualFriend").cast(DataTypes.IntegerType))
-                .withColumn("score", df.col("score").cast(DataTypes.DoubleType))
-                .withColumn("userActivity", df.col("userActivity").cast(DataTypes.IntegerType))
-                .withColumn("friendActivity", df.col("friendActivity").cast(DataTypes.IntegerType))
-                .withColumn("userFriendCount", df.col("userFriendCount").cast(DataTypes.IntegerType))
-                .withColumn("friendFriendCount", df.col("friendFriendCount").cast(DataTypes.IntegerType));
+        df.withColumn("ageDifference", df.col("ageDifferenceF").cast(DataTypes.IntegerType))
+                .withColumn("mutualFriend", df.col("mutualFriendF").cast(DataTypes.IntegerType))
+                .withColumn("score", df.col("scoreF").cast(DataTypes.DoubleType))
+                .withColumn("userActivity", df.col("userActivityF").cast(DataTypes.IntegerType))
+                .withColumn("friendActivity", df.col("friendActivityF").cast(DataTypes.IntegerType))
+                .withColumn("userFriendCount", df.col("userFriendCountF").cast(DataTypes.IntegerType))
+                .withColumn("friendFriendCount", df.col("friendFriendCountF").cast(DataTypes.IntegerType));
 
         // Displays the content of the DataFrame to stdout
         df.printSchema();
