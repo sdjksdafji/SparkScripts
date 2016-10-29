@@ -37,7 +37,7 @@ public class ReadJson {
 
         Dataset<Row> df = spark.read().json(dataset);
 
-        df = df.withColumn("ageDifference", df.col("ageDifference").cast(DataTypes.IntegerType))
+        df = df.withColumn("ageDifference", df.col("ageDifference").cast(DataTypes.DoubleType))
                 .withColumn("mutualFriend", df.col("mutualFriend").cast(DataTypes.IntegerType))
                 .withColumn("score", df.col("score").cast(DataTypes.DoubleType))
                 .withColumn("userActivity", df.col("userActivity").cast(DataTypes.IntegerType))
