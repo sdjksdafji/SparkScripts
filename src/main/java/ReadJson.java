@@ -1,7 +1,10 @@
+import org.apache.spark.ml.Pipeline;
+import org.apache.spark.ml.PipelineModel;
+import org.apache.spark.ml.PipelineStage;
+import org.apache.spark.ml.feature.StandardScaler;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
-import org.apache.spark.sql.execution.columnar.LONG;
 import org.apache.spark.sql.types.DataTypes;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -41,6 +44,25 @@ public class ReadJson {
                 .withColumn("friendActivity", df.col("friendActivity").cast(DataTypes.IntegerType))
                 .withColumn("userFriendCount", df.col("userFriendCount").cast(DataTypes.IntegerType))
                 .withColumn("friendFriendCount", df.col("friendFriendCount").cast(DataTypes.IntegerType));
+
+        StandardScaler ageDifferenceScaler = new StandardScaler()
+                .setInputCol("ageDifference")
+                .setOutputCol("ageDifferenceScaled")
+                .setWithStd(true)
+                .setWithMean(true);
+
+        StandardScaler scoreScaler = new StandardScaler()
+                .setInputCol("score")
+                .setOutputCol("scoreScaled")
+                .setWithStd(true)
+                .setWithMean(true);
+
+        Pipeline pipeline = new Pipeline()
+                .setStages(new PipelineStage[] {ageDifferenceScaler, scoreScaler});
+
+        PipelineModel model = pipeline.fit(df);
+
+        df = model.transform(df);
 
         // Displays the content of the DataFrame to stdout
         df.printSchema();
